@@ -20,4 +20,9 @@ public class LaunchPreview : MonoBehaviour
         Vector3 endPoint = transform.position + pointOffset;    
         lineRenderer.SetPosition(1, endPoint);
     }
+    public void HideLine()
+    {
+        lineRenderer.SetPosition(0, Vector3.zero);
+        lineRenderer.SetPosition(1, Vector3.zero);
+    }
 }

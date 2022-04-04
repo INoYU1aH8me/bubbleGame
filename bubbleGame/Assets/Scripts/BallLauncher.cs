@@ -63,6 +63,7 @@ public class BallLauncher : MonoBehaviour
         Vector3 direction = (endDragPosition - startDragPosition).normalized;
         spawnBall();
         ball.GetComponent<Rigidbody2D>().AddForce(-direction);
+        launchPreview.HideLine();
     }
     private void ContinueDrag(Vector3 worldPosition)
     {
@@ -70,11 +71,10 @@ public class BallLauncher : MonoBehaviour
 
         Vector3 direction = endDragPosition - startDragPosition;
         launchPreview.SetEndPoint(transform.position-direction);
-
     }
 
     private void StartDrag(Vector3 worldPosition)
-    {
+    {        
         startDragPosition = worldPosition;
         launchPreview.SetStartPoint(transform.position);
     }
