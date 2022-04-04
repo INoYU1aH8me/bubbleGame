@@ -1,30 +1,38 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BallLauncher : MonoBehaviour
 {
-    [SerializeField] 
-    GameObject ballPrefab;
+    [SerializeField] GameObject ballPrefab;
+    [SerializeField] List<Color> colors;
 
     private Camera mainCamera;  
     private Vector3 startDragPosition;
     private Vector3 endDragPosition;
     private LaunchPreview launchPreview;
 
+
+    private GameObject ball;
+    private SpriteRenderer spriteRenderer;
+    private Color randomColor;
+
     private void Awake()
     {
-        launchPreview = GetComponent<LaunchPreview>();
+        launchPreview = GetComponent<LaunchPreview>();    
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
     // Start is called before the first frame update
     void Start()
     {
-         mainCamera= Camera.main;
-
+        mainCamera = Camera.main;
+        ResetColor();
     }
-
-    // Update is called once per frame
+    void ResetColor()
+    {
+        randomColor = colors[Random.Range(0, colors.Count)];
+        spriteRenderer.color = randomColor;
+    }
     void Update()
     {
         Vector3 worldPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
@@ -40,16 +48,21 @@ public class BallLauncher : MonoBehaviour
         }
         else if (Input.GetMouseButtonUp(0))
         {
-            EndDrag();
+            EndDrag();          
         }
     }
 
+    private void spawnBall()
+    {
+        ball = Instantiate(ballPrefab, transform.position, Quaternion.identity);
+        ball.GetComponent<Ball>().ChangeColor(randomColor);
+        ResetColor();
+    }
     private void EndDrag()
     {
         Vector3 direction = (endDragPosition - startDragPosition).normalized;
-        var ball = Instantiate(ballPrefab, transform.position, Quaternion.identity);
+        spawnBall();
         ball.GetComponent<Rigidbody2D>().AddForce(-direction);
-        
     }
     private void ContinueDrag(Vector3 worldPosition)
     {
