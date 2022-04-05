@@ -5,17 +5,23 @@ using UnityEngine;
 public class Ball : MonoBehaviour
 {
     [SerializeField] float speed;
+    [SerializeField] CircleCollider2D CircleCollider;
     public bool fromKnob;
 
     public Color color;
     private SpriteRenderer spriteRenderer;
     private new Rigidbody2D rigidbody2D;
+    public List<Ball> neighbours=new List<Ball>();
+    public bool collided=false;
+
+
     // Start is called before the first frame update
     void Start()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         Paint();
+        neighbours.Clear();
     }
     // Update is called once per frame
     void Update()
@@ -37,17 +43,41 @@ public class Ball : MonoBehaviour
         if (collision.gameObject.CompareTag("Ball"))
         {
             speed = 0;
+            Ball otherBall = collision.gameObject.GetComponent<Ball>();
             if (fromKnob)
             {
                 fromKnob = false;
-                Ball otherBall = collision.gameObject.GetComponent<Ball>();
                 if (color == otherBall.color)
                 {
-                    Destroy(otherBall.gameObject);
                     Destroy(gameObject);
+                    otherBall.Explode();
                 }
             }
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Collider"))
+        {
+            collision.transform.parent.GetComponent<Ball>().neighbours.Add(this);
+        }
+    }
+
+    private void Explode()
+    {
+        collided = true;
+        for (int i = 0; i < neighbours.Count; i++)
+        {
+            if (!neighbours[i].collided && neighbours[i]!=null)
+            {
+                if (color == neighbours[i].color)
+                {
+                    neighbours[i].Explode();
+                }
+            }
+        }
+        Destroy(gameObject);
     }
 }
 

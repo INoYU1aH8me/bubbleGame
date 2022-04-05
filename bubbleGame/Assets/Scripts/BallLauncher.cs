@@ -62,9 +62,13 @@ public class BallLauncher : MonoBehaviour
     private void EndDrag()
     {
         Vector3 direction = (endDragPosition - startDragPosition).normalized;
-        spawnBall();
-        ball.GetComponent<Rigidbody2D>().AddForce(-direction);
-        launchPreview.HideLine();
+        if (direction != Vector3.zero)
+        {
+            spawnBall();
+            ball.GetComponent<Rigidbody2D>().AddForce(-direction);
+        }
+            launchPreview.HideLine();
+        
     }
     private void ContinueDrag(Vector3 worldPosition)
     {
