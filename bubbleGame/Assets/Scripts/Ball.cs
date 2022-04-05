@@ -46,7 +46,6 @@ public class Ball : MonoBehaviour
             Ball otherBall = collision.gameObject.GetComponent<Ball>();
             if (fromKnob)
             {
-                fromKnob = false;
                 if (color == otherBall.color)
                 {
                     Destroy(gameObject);
