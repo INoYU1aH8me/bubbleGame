@@ -17,7 +17,6 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < transform.childCount; i++)
         {
             transform.GetChild(i).GetComponent<Ball>().SetColor(getRandomColor());
-            //transform.GetChild(i).GetComponent<Ball>().Paint();
         }
     }
 

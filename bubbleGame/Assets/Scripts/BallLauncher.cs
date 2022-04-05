@@ -6,6 +6,7 @@ public class BallLauncher : MonoBehaviour
 {
     [SerializeField] GameObject ballPrefab;
     [SerializeField] GameManager gameManager;
+    [SerializeField] PauseMenu pauseMenu;
 
     private Camera mainCamera;  
     private Vector3 startDragPosition;
@@ -35,20 +36,23 @@ public class BallLauncher : MonoBehaviour
     }
     void Update()
     {
-        Vector3 worldPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        worldPosition.z = 0;
+        if (!pauseMenu.IsGamePaused())
+        {
+            Vector3 worldPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            worldPosition.z = 0;
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            StartDrag(worldPosition);
-        }
-        else if (Input.GetMouseButton(0))
-        {
-            ContinueDrag(worldPosition);
-        }
-        else if (Input.GetMouseButtonUp(0))
-        {
-            EndDrag();          
+            if (Input.GetMouseButtonDown(0))
+            {
+                StartDrag(worldPosition);
+            }
+            else if (Input.GetMouseButton(0))
+            {
+                ContinueDrag(worldPosition);
+            }
+            else if (Input.GetMouseButtonUp(0))
+            {
+                EndDrag();
+            }
         }
     }
 
