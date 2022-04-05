@@ -59,13 +59,18 @@ public class Ball : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Collider"))
         {
-            collision.transform.parent.GetComponent<Ball>().neighbours.Add(this);
+            if (!collision.transform.parent.GetComponent<Ball>().neighbours.Contains(this))
+            {
+                collision.transform.parent.GetComponent<Ball>().neighbours.Add(this);
+            }
         }
     }
 
     private void Explode()
     {
         collided = true;
+        Destroy(gameObject);
+
         for (int i = 0; i < neighbours.Count; i++)
         {
             if (!neighbours[i].collided && neighbours[i]!=null)
@@ -75,8 +80,11 @@ public class Ball : MonoBehaviour
                     neighbours[i].Explode();
                 }
             }
+            if (neighbours[i] == null)
+            {
+                neighbours.Remove(neighbours[i]);
+            }
         }
-        Destroy(gameObject);
     }
 }
 

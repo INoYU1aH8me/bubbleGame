@@ -10,7 +10,10 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene("RandomGame");
     }
-
+    public void LoadCampaignGame()
+    {
+        SceneManager.LoadScene("CampaignGame");
+    }
     public void QuitGame()
     {
         Application.Quit();
