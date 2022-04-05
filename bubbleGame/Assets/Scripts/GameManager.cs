@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] List<Color> colors;
+    [SerializeField] bool isRandomGame;
 
     // Start is called before the first frame update
     void Start()
@@ -14,9 +15,12 @@ public class GameManager : MonoBehaviour
 
     void PaintBalls()
     {
-        for (int i = 0; i < transform.childCount; i++)
+        if (isRandomGame)
         {
-            transform.GetChild(i).GetComponent<Ball>().SetColor(getRandomColor());
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                transform.GetChild(i).GetComponent<Ball>().SetColor(getRandomColor());
+            }
         }
     }
 

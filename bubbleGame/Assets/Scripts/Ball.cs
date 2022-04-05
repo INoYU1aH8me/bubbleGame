@@ -20,13 +20,13 @@ public class Ball : MonoBehaviour
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        Paint();
+        Invoke("Paint", 0.01f);
         neighbours.Clear();
     }
     // Update is called once per frame
     void Update()
     {
-        Paint();
+       //Paint();
         rigidbody2D.velocity = rigidbody2D.velocity.normalized * speed;
     }
 
