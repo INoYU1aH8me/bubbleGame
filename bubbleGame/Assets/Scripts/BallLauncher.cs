@@ -5,7 +5,7 @@ using UnityEngine;
 public class BallLauncher : MonoBehaviour
 {
     [SerializeField] GameObject ballPrefab;
-    [SerializeField] List<Color> colors;
+    [SerializeField] GameManager gameManager;
 
     private Camera mainCamera;  
     private Vector3 startDragPosition;
@@ -30,7 +30,7 @@ public class BallLauncher : MonoBehaviour
     }
     void ResetColor()
     {
-        randomColor = colors[Random.Range(0, colors.Count)];
+        randomColor = gameManager.getRandomColor();
         spriteRenderer.color = randomColor;
     }
     void Update()
@@ -55,8 +55,9 @@ public class BallLauncher : MonoBehaviour
     private void spawnBall()
     {
         ball = Instantiate(ballPrefab, transform.position, Quaternion.identity);
-        ball.GetComponent<Ball>().ChangeColor(randomColor);
+        ball.GetComponent<Ball>().SetColor(randomColor);
         ResetColor();
+        ball.GetComponent<Ball>().fromKnob = true;
     }
     private void EndDrag()
     {
